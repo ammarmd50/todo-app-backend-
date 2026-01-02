@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
 
 const todoSchema = new mongoose.Schema(
- {
+  {
+    taskId : {
+      type: String,
+      require: true,
+    },
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true,
     },
     title: {
@@ -14,16 +17,15 @@ const todoSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      default: "",
+      default: "",  
     },
     status: {
       type: String,
       enum: ["pending", "in-progress", "done"],
       default: "pending",
     },
-},
-     { timestamps: true }
-
+  },
+  { timestamps: true }
 );
 
-export const todoModel = mongoose.model('todos', todoSchema)
+export const todoModel = mongoose.model("todos", todoSchema);
