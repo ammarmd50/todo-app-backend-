@@ -10,9 +10,10 @@ const router = express.Router();
 
 router.get("/me", authenticate, (req, res) => {
   const payload = req.user;
-  res.status(200).json({ 
+  res.status(200).json({
     success: true,
-    user: payload });
+    user: payload,
+  });
 });
 // SIGNUP API
 const signUp = async (req, res) => {
@@ -31,7 +32,7 @@ const signUp = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-  // Create new user with unique userId
+    // Create new user with unique userId
     const userId = uuidv4();
     const user = new userModel({
       userId: userId,
@@ -50,8 +51,8 @@ const signUp = async (req, res) => {
       }
     );
 
-      // Set token in HTTP-only cookie
-    res.cookie("accesstoken", token, { 
+    // Set token in HTTP-only cookie
+    res.cookie("accesstoken", token, {
       httpOnly: true,
       secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -90,10 +91,11 @@ const login = async (req, res) => {
         expiresIn: JWT_EXPIRES_IN || "7d",
       }
     );
- 
-    res.cookie("accesstoken", token, { 
+
+    res.cookie("accesstoken", token, {
       httpOnly: true,
       secure: false,
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
     // Send token in response and user info
@@ -105,18 +107,17 @@ const login = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
- const logout = (req, res) => { 
-    res.clearCookie("accesstoken", {
+const logout = (req, res) => {
+  res.clearCookie("accesstoken", {
     httpOnly: true,
     sameSite: "strict",
   });
   res.status(200).json({ message: "Logged out successfully" });
 };
 
-
 // Define routes for signup and login
 router.post("/signup", signUp);
 router.post("/login", login);
 router.post("/logout", logout);
-router.get("/me", authenticate); 
+router.get("/me", authenticate);
 export default router;
