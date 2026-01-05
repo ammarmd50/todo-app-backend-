@@ -115,9 +115,21 @@ const logout = (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 };
 
+const getHealth = async (req, res) => {
+  try {
+    res.json({
+      status: true,
+      message: "App working fine",
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 // Define routes for signup and login
 router.post("/signup", signUp);
 router.post("/login", login);
 router.post("/logout", logout);
 router.get("/me", authenticate);
+router.get("/health", getHealth);
 export default router;

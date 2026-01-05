@@ -8,6 +8,7 @@ import { connectDb } from "./database/db-connect.js";
 //import { userModel } from "./db-model/user-model.js";
 import authRouter from "./routes/auth.route.js";
 import taskRouter from "./routes/taskRouter.js";
+import publicRouter from "./routes/public.route.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -29,6 +30,7 @@ app.use(cookieParser());
 /*    body parser */
 app.use("/auth", authRouter);
 app.use("/tasks", taskRouter);
+app.use("/public", publicRouter);
 
 // // ---------------- CAR API ----------------
 // app.post("/create", async (req, res) => {
