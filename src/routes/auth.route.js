@@ -52,7 +52,7 @@ const signUp = async (req, res) => {
     );
 
     // Set token in HTTP-only cookie
-    res.cookie("accesstoken", token, {
+    res.cookie("accessToken", token, {
       httpOnly: true,
       secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -92,12 +92,15 @@ const login = async (req, res) => {
       }
     );
 
-    res.cookie("accesstoken", token, {
+    const options = {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+      maxAge: 5 * 24 * 60 * 60 * 1000,
+      //         1day   1hour  1min    1sec
+    };
+
+    res.cookie("accessToken", token, options);
     // Send token in response and user info
     res.json({
       token,
@@ -108,7 +111,7 @@ const login = async (req, res) => {
   }
 };
 const logout = (req, res) => {
-  res.clearCookie("accesstoken", {
+  res.clearCookie("accessToken", {
     httpOnly: true,
     sameSite: "strict",
   });

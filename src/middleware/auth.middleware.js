@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../constant/auth.constant.js";
 
 export const authenticate = (req, res, next) => {
- const token = req.cookies.accesstoken;
+ const token = req.cookies.accessToken;
  
   if (!token) return res.status(401).json({ message: "Token not provided" });
 
@@ -19,7 +19,7 @@ export const authenticate = (req, res, next) => {
 };
 
   // note : The authentication middleware has been updated
-  //        to extract the JWT token from an HTTP-only cookie named "accesstoken"
+  //        to extract the JWT token from an HTTP-only cookie named "accessToken"
   //        instead of the Authorization header.
 
 

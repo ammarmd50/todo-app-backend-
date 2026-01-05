@@ -15,15 +15,14 @@ const app = express();
 // 2. Middleware setup
 
 //    CORS
-app.use(express.json());
 app.use(
   cors({
-    origin: true, // ✅ allow all origins safely
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: ["https://todo-react-app-ten.vercel.app", "http://localhost:5173"],
+    // allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
-
+app.use(express.json());
 app.use(cookieParser());
 
 // 3. Route setup
