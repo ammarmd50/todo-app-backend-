@@ -110,12 +110,20 @@ const login = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 const logout = (req, res) => {
-  res.clearCookie("accessToken", {
+  const options = {
     httpOnly: true,
-    sameSite: "strict",
-  });
-  res.status(200).json({ message: "Logged out successfully" });
+    secure: true,
+    sameSite: "none",
+    // maxAge: 5 * 24 * 60 * 60 * 1000,
+    //         1day   1hour  1min    1sec
+  };
+
+  res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .json({ message: "Logged out successfully" });
 };
 
 const getHealth = async (req, res) => {
