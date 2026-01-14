@@ -17,6 +17,7 @@ const todoSchema = new mongoose.Schema(
     },
     description: {
       type: String,
+      trim: true,
       default: "",  
     },
     status: {
